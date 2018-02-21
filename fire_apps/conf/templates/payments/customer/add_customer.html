@@ -1,0 +1,450 @@
+{% load staticfiles %}
+{% load formtags %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta charset="utf-8" />
+        <title>Fire Tintas</title>
+
+        <meta name="description" content="overview &amp; stats" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+        <!-- bootstrap & fontawesome -->
+        <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/css/daterangepicker.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/font-awesome/4.5.0/css/font-awesome.min.css' %}" />
+
+        <!-- page specific plugin styles -->
+
+        <!-- text fonts -->
+        <link rel="stylesheet" href="{% static 'assets/css/fonts.googleapis.com.css' %}" />
+
+        <!-- ace styles -->
+        <link rel="stylesheet" href="{% static 'assets/css/ace.min.css' %}" class="ace-main-stylesheet" id="main-ace-style" />
+
+        <!--[if lte IE 9]>
+            <link rel="stylesheet" href="assets/css/ace-part2.min.css" class="ace-main-stylesheet" />
+        <![endif]-->
+        <link rel="stylesheet" href="{% static 'assets/css/ace-skins.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'assets/css/ace-rtl.min.css' %}" />
+
+
+        <!--[if lte IE 9]>
+          <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+        <![endif]-->
+
+        <!-- inline styles related to this page -->
+
+        <!-- ace settings handler -->
+        <script src="{% static 'assets/js/ace-extra.min.js' %}"></script>
+
+        <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+        <!--[if lte IE 8]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+        <![endif]-->
+
+        <style>
+            .user-info{
+                vertical-align: 0 !important;
+                top: 0px !important;
+            }
+            .nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+                background-color: #2c5976 !important;
+                color: #fff;
+            }
+            .ace-nav>li.open>a, .ace-nav>li>a:focus, .ace-nav>li>a:hover {
+                background-color: #2c5976 !important;
+                border-color: #fff;
+            }
+            .ace-nav>li>a {
+                background-color: #438EB9 !important;
+                color: #fff;
+            }
+            .nav-search .calendar-input {
+                border: 1px solid #6FB3E0;
+                width: 220px;
+                height: 28px!important;
+                padding-top: 2px;
+                padding-bottom: 2px;
+                border-radius: 4px!important;
+                font-size: 13px;
+                line-height: 1.3;
+                color: #666!important;
+                z-index: 11;
+                -webkit-transition: width ease .15s;
+                -o-transition: width ease .15s;
+                transition: width ease .15s;
+            }
+            .border-none {
+                border-bottom: 0px !important;
+                border-top: 0px !important;
+                border-left: 0px !important;
+                border-right: 0px !important;
+            }
+            .large-content {
+                max-width: 300px !important;
+            }
+            .auto-info-box {
+                width: auto !important;
+                height: auto !important;
+            }
+            .block-display {
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body class="no-skin">
+        <div id="navbar" class="navbar navbar-default          ace-save-state navbar-fixed-top">
+            <div class="navbar-container ace-save-state" id="navbar-container">
+                <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
+                    <span class="sr-only">Toggle sidebar</span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+
+                    <span class="icon-bar"></span>
+                </button>
+
+                <div class="navbar-header pull-left">
+                    <a href="{% url 'sales:dash_sales' %}" class="navbar-brand">
+                        <small>
+                            <i class="fa fa-fire"></i>
+                            Fire Tintas
+                        </small>
+                    </a>
+                </div>
+
+                <div class="navbar-buttons navbar-header pull-right" role="navigation">
+                    <ul class="nav ace-nav">
+
+                        <li class="light-blue dropdown-modal">
+                            <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                                <span class="user-info">
+                                    Jason
+                                    <i class="ace-icon fa fa-caret-down"></i>
+                                </span>
+
+
+                            </a>
+
+                            <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                                <li>
+                                    <a href="#">
+                                        <i class="ace-icon fa fa-power-off"></i>
+                                        sair
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- /.navbar-container -->
+        </div>
+
+        <div class="main-container ace-save-state" id="main-container">
+            <script type="text/javascript">
+                try{ace.settings.loadState('main-container')}catch(e){}
+            </script>
+
+            <div id="sidebar" class="sidebar                  responsive                    ace-save-state sidebar-fixed menu-min">
+                <script type="text/javascript">
+                    try{ace.settings.loadState('sidebar')}catch(e){}
+                </script>
+
+                <ul class="nav nav-list">
+                    <li class="">
+                        <a href="{% url 'sales:dash_sales' %}">
+                            <i class="menu-icon fa fa-tachometer"></i>
+                            <span class="menu-text"> Inicio </span>
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                    <li class="">
+                        <a href="{% url 'sales:list_customer' %}">
+                            <i class="menu-icon fa fa-group"></i>
+                            <span class="menu-text"> Clientes </span>
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul><!-- /.nav-list -->
+
+                <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+                    <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="main-content-inner">
+                    <div class="breadcrumbs ace-save-state breadcrumbs-fixed" id="breadcrumbs">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="ace-icon fa fa-group group-icon"></i>
+                                <a href="{% url 'sales:list_customer' %}">Clientes</a>
+                            </li>
+                            <li class="active">Novo Cliente</li>
+                        </ul><!-- /.breadcrumb -->
+
+                    </div>
+
+                    <div class="page-content">
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <!-- PAGE CONTENT BEGINS -->
+
+
+                                <div class="row">
+                                        <div class="col-xs-12 col-sm-12">
+                                            <div class="widget-box transparent">
+                                                <form action="." method="POST">
+                                                    {% csrf_token %}
+                                                <div class="widget-header widget-header-flat border-none">
+                                                    <h4 class="widget-title lighter">
+                                                        <i class="ace-icon fa fa-star orange"></i>
+                                                        Novo Cliente
+                                                    </h4>
+
+                                                    <div class="widget-toolbar">
+                                                        <a href="{% url 'sales:list_customer' %}">
+                                                            <i class="fa fa-times"></i>
+                                                            Cancelar
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="widget-toolbar">
+                                                        <button class="btn btn-link" type="submit">
+                                                            <i class="fa fa-floppy-o"></i>
+                                                            Salvar
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="widget-body">
+                                                    <div class="widget-main">
+
+                                                        <div class="col-sm-6">
+                                                        <div>
+                                                            <label for="id_name">Nome</label>
+                                                            <div class='input-group {% if form.name.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-user'></i>
+                                                                </div>
+                                                                {{ form.name|placeholder:"nome completo" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.name.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_cpf">Cpf</label>
+                                                            <div class='input-group {% if form.cpf.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.cpf|placeholder:"ex: 11111111111" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.cpf.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_rua">Rua</label>
+                                                            <div class='input-group {% if form.rua.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.rua|placeholder:"nome da rua" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.rua.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_numero">Numero</label>
+                                                            <div class='input-group {% if form.numero.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.numero|placeholder:"ex: 295" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.numero.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_bairro">Bairro</label>
+                                                            <div class='input-group {% if form.bairro.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.bairro|placeholder:"nome do bairro" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.bairro.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        </div>
+
+                                                        <div class="col-sm-6">
+                                                        <div>
+                                                            <label for="id_cidade">Cidade</label>
+                                                            <div class='input-group {% if form.cidade.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.cidade|placeholder:"nome da cidade" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.cidade.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_estado">UF</label>
+                                                            <div class='input-group {% if form.estado.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.estado|placeholder:"estado" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.estado.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_email">Email</label>
+                                                            <div class='input-group {% if form.email.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.email|placeholder:"teste@teste.com" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.email.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_phone">Telefone</label>
+                                                            <div class='input-group {% if form.phone.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.phone|placeholder:"ex: 28 99951 2461" |addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.phone.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        <div class="space-6"></div>
+                                                        <div>
+                                                            <label for="id_description">Observação</label>
+                                                            <div class='input-group {% if form.description.errors %}has-error{% endif %}'>
+                                                                <div class='input-group-addon'>
+                                                                    <i class='ace-icon fa fa-credit-card'></i>
+                                                                </div>
+                                                                {{ form.description|placeholder:"observação sobre o cliente" | textarea:"4" | addcss:"form-control" }}
+                                                            </div>
+                                                            <span class="error text-danger">{{ form.description.errors|join:"<br \>" }}</span>
+                                                        </div>
+                                                        </div>
+
+                                                        <!--<div class="col-sm-3">
+                                                            <div class="space-6"></div>
+                                                        <div>
+                                                            <div class="input-group">
+                                                               <button class="btn btn-sm btn-primary" name="add_customer" id="id_add_customer" type="submit">
+                                                                <i class="fa fa-floppy-o"></i>
+                                                                Salvar
+                                                                </button>
+                                                               <a class="btn btn-sm btn-danger" name="close_add_customer" id="id_close_add_customer" href="{% url 'sales:list_customer' %}">
+                                                                <i class="fa fa-times"></i>
+                                                                Cancelar
+                                                               </a>
+                                                            </div>
+                                                        </div>
+                                                        </div>-->
+
+                                                    </div>
+                                                </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                </div><!-- /.row -->
+
+                                <!-- PAGE CONTENT ENDS -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.page-content -->
+                </div>
+            </div><!-- /.main-content -->
+
+            <div class="footer">
+                <div class="footer-inner">
+                    <div class="footer-content">
+                        <span class="bigger-120">
+                            <span class="red bolder">Fire Tintas</span>
+                             &copy; 2018
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+                <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+            </a>
+        </div><!-- /.main-container -->
+
+        <!-- basic scripts -->
+
+        <!--[if !IE]> -->
+            <script src="{% static 'assets/js/jquery-2.1.4.min.js' %}"></script>
+        <!-- <![endif]-->
+
+        <!--[if IE]>
+            <script src="assets/js/jquery-1.11.3.min.js"></script>
+        <![endif]-->
+
+        <script type="text/javascript">
+            if('ontouchstart' in document.documentElement) document.write("<script src='{% static 'assets/js/jquery.mobile.custom.min.js' %}'>"+"<"+"/script>");
+        </script>
+        <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+        <!-- page specific plugin scripts -->
+
+        <!--[if lte IE 8]>
+          <script src="assets/js/excanvas.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'assets/js/jquery-ui.custom.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.ui.touch-punch.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.easypiechart.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.sparkline.index.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.flot.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.flot.pie.min.js' %}"></script>
+        <script src="{% static 'assets/js/jquery.flot.resize.min.js' %}"></script>
+        <script src="{% static 'assets/js/moment.min.js' %}"></script>
+        <script src="{% static 'assets/js/daterangepicker.min.js' %}"></script>
+
+        <!-- ace scripts -->
+        <script src="{% static 'assets/js/ace-elements.min.js' %}"></script>
+        <script src="{% static 'assets/js/ace.min.js' %}"></script>
+
+        <!-- inline scripts related to this page -->
+        <script type="text/javascript">
+            jQuery(function($) {
+
+                $('#dt-range').daterangepicker({
+                    'applyClass' : 'btn-sm btn-success',
+                    'cancelClass' : 'btn-sm btn-default',
+                    locale: {
+                        applyLabel: 'Apply',
+                        cancelLabel: 'Cancel',
+                    }
+                })
+                .prev().on(ace.click_event, function(){
+                    $(this).next().focus();
+                });
+            });
+        </script>
+    </body>
+</html>

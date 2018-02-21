@@ -1,0 +1,122 @@
+{% extends 'base_payments.html' %}
+{% load formtags %}
+
+{% block search_form_navbar %}{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="widget-box transparent">
+                    <form action="." method="POST">
+                        {% csrf_token %}
+                    <div class="widget-header widget-header-flat border-none">
+                        <h4 class="widget-title lighter">
+                            <i class="ace-icon fa fa-star orange"></i>
+                            Novo Lançamento
+                        </h4>
+
+                        <div class="widget-toolbar">
+                            <a href="{% url 'payments:list_lancamentos' %}">
+                                <i class="fa fa-times"></i>
+                                Cancelar
+                            </a>
+                        </div>
+
+                        <div class="widget-toolbar">
+                            <button class="btn btn-link" type="submit">
+                                <i class="fa fa-floppy-o"></i>
+                                Salvar
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <div class="col-sm-6 col-sm-offset-2">
+                                <div>
+                                    <label for="id_tipo">Tipo</label>
+                                    <div class="input-group ">
+                                        <div class="input-group-addon">
+                                            <i class="ace-icon fa fa-credit-card"></i>
+                                        </div>
+                                        <select class="form-control" id="id_tipo" name="tipo">
+                                            <option value="" selected="selected">---------</option>
+                                            <option value="2">débito</option>
+                                            <option value="1">crédito</option>
+                                        </select>
+                                    </div>
+                                    <span class="error text-danger"></span>
+                                </div>
+
+                                <div class="space-6"></div>
+                                <div>
+                                    <label for="id_cod_venda">Codigo Venda</label>
+                                    <div class='input-group {% if form_sale.cod_venda.errors %}has-error{% endif %}'>
+                                        <div class='input-group-addon'>
+                                            <i class='ace-icon fa fa-credit-card'></i>
+                                        </div>
+                                        {{ form_sale.cod_venda|placeholder:"Codigo ou descrição da venda" | textarea:"4" | addcss:"form-control" }}
+                                    </div>
+                                    <span class="error text-danger">{{ form_sale.cod_venda.errors|join:"<br \>" }}</span>
+                                </div>
+                                <div class="space-6"></div>
+                                <div>
+                                    <label for="id_machinecard">Maquina Cartão</label>
+                                    <div class='input-group {% if form_sale.machinecard.errors %}has-error{% endif %}'>
+                                        <div class='input-group-addon'>
+                                            <i class='ace-icon fa fa-credit-card'></i>
+                                        </div>
+                                        {{ form_sale.machinecard|placeholder:"ex: 295" |addcss:"form-control" }}
+                                    </div>
+                                    <span class="error text-danger">{{ form_sale.machinecard.errors|join:"<br \>" }}</span>
+                                </div>
+                                <div class="space-6"></div>
+                                <div id='id_total_parcelas'>
+                                    <label for="id_total_parc">Vezes X</label>
+                                    <div class='input-group {% if form_sale.total_parc.errors %}has-error{% endif %}'>
+                                        <div class='input-group-addon'>
+                                            <i class='ace-icon fa fa-credit-card'></i>
+                                        </div>
+                                        {{ form_sale.total_parc|placeholder:"nome do total_parc" |addcss:"form-control" }}
+                                    </div>
+                                    <span class="error text-danger">{{ form_sale.total_parc.errors|join:"<br \>" }}</span>
+                                </div>
+                                <div class="space-6"></div>
+                                <div>
+                                    <label for="id_valor_total">Valor</label>
+                                    <div class='input-group {% if form_sale.valor_total.errors %}has-error{% endif %}'>
+                                        <div class='input-group-addon'>
+                                            <i class='ace-icon fa fa-credit-card'></i>
+                                        </div>
+                                        {{ form_sale.valor_total|placeholder:"valor da venda" |addcss:"form-control" }}
+                                    </div>
+                                    <span class="error text-danger">{{ form_sale.valor_total.errors|join:"<br \>" }}</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    </form>
+                </div>
+            </div>
+
+    </div><!-- /.row -->
+
+{% endblock %}
+
+{% block extra_script_body %}
+<script type="text/javascript">
+    $('#id_tipo').change( function() {
+        $(this).find(":selected").each(function () {
+            if($(this).text() == 'débito'){
+                $('#id_total_parcelas').hide();
+            }else{
+                $('#id_total_parcelas').show();
+            }
+        });
+    });
+</script>
+{% endblock %}

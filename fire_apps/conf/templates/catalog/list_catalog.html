@@ -1,0 +1,118 @@
+{% extends 'base_catalog.html' %}
+
+{% block navbar %}
+	<div class="box_wrapper">
+		<div class="pull-right">
+
+			<form method="GET" id="custom-search-form">
+				<div class='col-md-6'>
+					<input type="text" placeholder="pesquisar" name='search' id='search' value='{% if request.GET.search %}{{ request.GET.search }}{% endif %}'>
+				</div>
+				<div class='col-md-6'>
+					{% if classification %}
+						<select name='select' id='id_select' style='float:right;color:#969696;height:26px;'>
+
+							{% for obj in classification %}
+								{% if request.GET.select == obj.name %}
+									<option  selected="selected" name='{{ obj.name }}' id='{{ obj.id_classification }}'>{{ obj.name }}</option>
+								{% else %}
+									<option name='{{ obj.name }}' id='{{ obj.id_classification }}'>{{ obj.name }}</option>
+								{% endif %}
+							{% endfor %}
+
+						</select>
+					{% endif %}
+				</div>
+			</form>
+		</div>
+
+		<h1>{{ title }}</h1>
+
+	</div>
+{% endblock %}
+
+{% block content %}
+	<div class="row">
+		<div class="content-top">
+			<div class="text">
+				{% if not object_list %}
+					<center>
+						<h3>Não existem produtos cadastrados</h3>
+					</center>
+				{% else %}
+					{% for catalog in object_list %}
+
+						{% if forloop.counter0|divisibleby:4 %}
+							</div></div></div><br>
+							<div class="row">
+								<div class="content-top">
+									<div class="text">
+						{% endif %}
+
+						<div class="col-md-3">
+							<div class="grid_1_of_3 images_1_of_3">
+								<img src="{{ catalog.imagem.url }}" title="continue reading" alt="">
+								<div class="grid_desc">
+									{% if catalog.cod_produto %}<small>cod: {{ catalog.cod_produto }}</small>{% endif %}
+										<p class="title">{{ catalog.description }}</p>
+										<div class="price">
+											{% if catalog.preco_corte %}<span class="actual">de R$ {{ catalog.preco_corte }}</span><br>{% endif %}
+											{% if catalog.preco_prazo %}<span class="reducedfromp">R$ {{ catalog.preco_prazo }}</span>a prazo<br>{% endif %}
+											<span class="reducedfrom">R$ {{ catalog.preco_vista }}</span>à vista
+										</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				{% endif %}
+						</div>
+					</div>
+				</div>
+
+
+
+				{% if object_list %}
+					{% if is_paginated %}
+						<ul class="pagination">
+							{% if page_obj.has_previous %}
+								<li><a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo;</a></li>
+							{% else %}
+								<li class="disabled"><a class='disabled'>&laquo;</a></li>
+							{% endif %}
+
+							{% for num in page_obj.paginator.page_range %}
+								{% ifequal num page_obj.number %}
+									<li class="active"><a class='disabled'>{{ num }}<span class="sr-only">(current)</span></a></li>
+								{% else %}
+									<li><a href="?page={{ num }}">{{ num }}</a></li>
+								{% endifequal %}
+							{% endfor %}
+
+							{% if page_obj.has_next %}
+								<li><a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&raquo;</a></li>
+							{% else %}
+								<li class="disabled"><a class='disabled'>&raquo;</a></li>
+							{% endif %}
+						<ul>
+					{% endif %}
+				{% endif %}
+
+{% endblock %}
+
+{% block footer %}
+	<div class="footer-bottom">
+		<div class="copy">
+			<p>&copy 2018 Fire Tintas </p>
+		</div>
+	</div>
+{% endblock %}
+
+{% block extra_js %}
+	<script>
+		$('#id_select').change( function() {
+			$(this).find(":selected").each(function () {
+				$('#custom-search-form').submit();
+			});
+		});
+	</script>
+{% endblock %}

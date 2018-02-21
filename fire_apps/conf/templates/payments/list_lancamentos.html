@@ -1,0 +1,196 @@
+{% extends 'base_payments.html' %}
+{% load formtags %}
+
+{% block search_form_navbar %}
+    <div class="nav-search" id="nav-search">
+        <form class="form-search" id="id-form-search" method='get' action='.'>
+            <span class="input-icon">
+                <input value="{% if request.GET.range_dt %}{{ request.GET.range_dt }}{% endif %}" type="text" class="calendar-input" id="dt-range" name="range_dt" />
+                <i class="ace-icon fa fa-calendar blue"></i>
+            </span>
+
+            <select id="id_status" name="status">
+                {% for obj in status_list %}
+                    {% if request.GET.status == obj.name %}
+                        <option  selected="selected" name='{{ obj.name }}' id='{{ obj.pk }}'>{{ obj.name }}</option>
+                    {% else %}
+                        <option name='{{ obj.name }}' id='{{ obj.pk }}'>{{ obj.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+            <select id="id_tipo" name="tipo">
+                {% for obj in tipo_list %}
+                    {% if request.GET.tipo == obj.name %}
+                        <option  selected="selected" name='{{ obj.name }}' id='{{ obj.pk }}'>{{ obj.name }}</option>
+                    {% else %}
+                        <option name='{{ obj.name }}' id='{{ obj.pk }}'>{{ obj.name }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+
+        </form>
+    </div><!-- /.nav-search -->
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-box transparent">
+
+                <div class="widget-header widget-header-flat">
+                <h4 class="widget-title lighter">
+                    <i class="ace-icon fa fa-star orange"></i>
+                    <a href="{% url 'payments:list_lancamentos' %}">Lançamentos</a>
+                </h4>
+
+                <div class="widget-toolbar">
+                   <a href="{% url 'payments:add_lancamentos' %}">
+                        <i class="ace-icon fa fa-plus"></i>
+                        adicionar
+                    </a>
+                </div>
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        {% include "messages.html" %}
+                        <table class="table table-bordered table-striped">
+                            <thead class="thin-border-bottom">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>status
+                                    </th>
+
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>tipo
+                                    </th>
+
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>maquina
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor total
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor calculado
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor perdido
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>total parcelas
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>data venda
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for list in object_list %}
+                                    <tr>
+                                        <td><a href="{{ list.get_absolute_url }}">{{ forloop.counter }}</a></td>
+                                        <td>
+                                            <a href="{{ list.get_absolute_url }}"><span class="label {% if list.status.name == 'aberto' %}label-info{% elif list.status.name == 'fechado' %}label-success{% elif list.status.name == 'cancelado' %}label-danger{% endif %} arrowed-right arrowed-in">{{ list.status.name }}</span></a>
+                                        </td>
+                                        <td><a href="{{ list.get_absolute_url }}">{{ list.tipo.name }}</a></td>
+                                        <td><a href="{{ list.get_absolute_url }}">{{ list.machinecard.name }}</a></td>
+                                        <td><a href="{{ list.get_absolute_url }}"><b class="blue">R$ {{ list.valor_total | real_br_money_mask  }}</b></a></td>
+                                        <td><a href="{{ list.get_absolute_url }}"><b class="green">R$ {{ list.valor_calc | real_br_money_mask  }}</b></a></td>
+                                        <td><a href="{{ list.get_absolute_url }}"><b class="red">R$ {{ list.valor_perdido_total | real_br_money_mask  }}</b></a></td>
+                                        <td><a href="{{ list.get_absolute_url }}">{{ list.total_parc }}</a></td>
+                                        <td><a href="{{ list.get_absolute_url }}">{{ list.created_at|date:"d/m/Y h:m:s" }}</a></td>
+                                        <td>
+                                            <div class="hidden-sm hidden-xs btn-group">
+                                                <a href="{{ list.get_delete_credit_debit }}" class="btn btn-xs btn-danger">
+                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="hidden-md hidden-lg">
+                                                <div class="inline pos-rel">
+                                                    <button class="btn btn-minier btn-primary dropdown-toggle" data-toggle="dropdown" data-position="auto">
+                                                        <i class="ace-icon fa fa-cog icon-only bigger-110"></i>
+                                                    </button>
+
+                                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow dropdown-menu-right dropdown-caret dropdown-close">
+
+                                                        <li>
+                                                            <a href="#" class="tooltip-success" data-rel="tooltip" title="" data-original-title="Edit">
+                                                                <span class="green">
+                                                                    <i class="ace-icon fa fa-pencil-square-o bigger-120"></i>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="#" class="tooltip-error" data-rel="tooltip" title="" data-original-title="Delete">
+                                                                <span class="red">
+                                                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div><!-- /.widget-main -->
+                    {% if object_list %}
+                        <ul class="pagination" id='setpage'>
+                            {% if page_obj.has_previous %}
+                                <li><a href="?page={{ page_obj.previous_page_number }}{% if request.GET.range_dt %}&range_dt={{ request.GET.range_dt }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">&laquo;</a></li>
+                            {% else %}
+                                <li class="disabled"><a class='disabled'>&laquo;</a></li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% ifequal num page_obj.number %}
+                                    <li class="active"><a class='disabled'>{{ num }}<span class="sr-only">(current)</span></a></li>
+                                {% else %}
+                                    <li><a href="?page={{ num }}{% if request.GET.range_dt %}&range_dt={{ request.GET.range_dt }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">{{ num }}</a></li>
+                                {% endifequal %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}{% if request.GET.range_dt %}&range_dt={{ request.GET.range_dt }}{% endif %}{% if request.GET.tipo %}&tipo={{ request.GET.tipo }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">&raquo;</a></li>
+                            {% else %}
+                                <li class="disabled"><a class='disabled'>&raquo;</a></li>
+                            {% endif %}
+                        <ul>
+                    {% endif %}
+                </div><!-- /.widget-body -->
+            </div><!-- /.widget-box -->
+        </div><!-- /.col -->
+
+    </div><!-- /.row -->
+{% endblock %}
+
+{% block extra_script_body %}
+    <script>
+        $('#id_status').change( function() {
+            $(this).find(":selected").each(function () {
+                $('#id-form-search').submit();
+            });
+        });
+
+        $('#id_tipo').change( function() {
+            $(this).find(":selected").each(function () {
+                $('#id-form-search').submit();
+            });
+        });
+
+        $('#dt-range').on('apply.daterangepicker', function(ev, picker) {
+            $('#id-form-search').submit();
+        });
+    </script>
+{% endblock %}

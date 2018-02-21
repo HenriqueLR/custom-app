@@ -1,0 +1,119 @@
+{% extends 'base_payments.html' %}
+{% load formtags %}
+
+{% block search_form_navbar %}{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget-box transparent">
+
+                <div class="widget-header widget-header-flat">
+                <h4 class="widget-title lighter">
+                    <i class="ace-icon fa fa-star orange"></i>
+                    <a href="{{ obj.get_absolute_url }}">Detalhar Lançamentos</a>
+                </h4>
+
+                        <div class="widget-toolbar">
+                            <a href="{% url 'payments:list_lancamentos' %}">
+                                <i class="fa fa-times"></i>
+                                Cancelar
+                            </a>
+                        </div>
+
+                </div>
+
+                <div class="widget-body">
+                    <div class="widget-main no-padding">
+                        <table class="table table-bordered table-striped">
+                            <thead class="thin-border-bottom">
+                                <tr>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>Codigo Venda
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>status venda
+                                    </th>
+
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>tipo venda
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>máquina cartão
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor total
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor calculado
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor perdido
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>total parcelas
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>data venda
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>parcela corrente
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor parcela
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>valor perdido parcela
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>data processamento
+                                    </th>
+                                    <th>
+                                        <i class="ace-icon fa fa-caret-right blue"></i>status parcela
+                                    </th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for detail in detail_credit_debit %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ detail.sale_credit_debit.pk }}</td>
+                                        <td>
+                                            <span class="label {% if detail.sale_credit_debit.status.name == 'aberto' %}label-info{% elif detail.sale_credit_debit.status.name == 'fechado' %}label-success{% elif detail.sale_credit_debit.status.name == 'cancelado' %}label-danger{% endif %} arrowed-right arrowed-in">{{ detail.sale_credit_debit.status.name }}</span>
+                                        </td>
+                                        <td>{{ detail.sale_credit_debit.tipo.name }}</td>
+                                        <td>{{ detail.sale_credit_debit.machinecard.name }}</td>
+                                        <td><b class="blue">R$ {{ detail.sale_credit_debit.valor_total | real_br_money_mask  }}</b></td>
+                                        <td><b class="green">R$ {{ detail.sale_credit_debit.valor_calc | real_br_money_mask  }}</b></td>
+                                        <td><b class="red">R$ {{ detail.sale_credit_debit.valor_perdido_total | real_br_money_mask  }}</b></td>
+                                        <td>{{ detail.sale_credit_debit.total_parc }}</td>
+                                        <td>{{ detail.sale_credit_debit.created_at|date:"d/m/Y h:m:s" }}</td>
+                                        <td>{{ detail.current_parc }}</td>
+                                        <td>{{ detail.valor_parcela | real_br_money_mask  }}</td>
+                                        <td>{{ detail.valor_perdido_parc | real_br_money_mask  }}</td>
+                                        <td>{{ detail.data_process|date:"d/m/Y h:m:s" }}</td>
+                                        <td>
+                                            <span class="{% if detail.status_detail == True %}badge badge-success{% else %}badge badge-danger{% endif %}">
+                                                <i class="{% if detail.status_detail == True %}fa fa-check{% else %}fa fa-times{% endif %}"></i>
+                                            </span>
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div><!-- /.widget-main -->
+                </div><!-- /.widget-body -->
+            </div><!-- /.widget-box -->
+        </div><!-- /.col -->
+
+    </div><!-- /.row -->
+
+{% endblock %}
+
+{% block extra_script_body %}
+{% endblock %}

@@ -1,0 +1,6 @@
+Requirement already satisfied: celery in /deploy/envs/sales/lib/python2.7/site-packages
+Requirement already satisfied: billiard<3.6.0,>=3.5.0.2 in /deploy/envs/sales/lib/python2.7/site-packages (from celery)
+Requirement already satisfied: pytz>dev in /deploy/envs/sales/lib/python2.7/site-packages (from celery)
+Requirement already satisfied: kombu<5.0,>=4.0.2 in /deploy/envs/sales/lib/python2.7/site-packages (from celery)
+Requirement already satisfied: amqp<3.0,>=2.1.4 in /deploy/envs/sales/lib/python2.7/site-packages (from kombu<5.0,>=4.0.2->celery)
+Requirement already satisfied: vine>=1.1.3 in /deploy/envs/sales/lib/python2.7/site-packages (from amqp<3.0,>=2.1.4->kombu<5.0,>=4.0.2->celery)

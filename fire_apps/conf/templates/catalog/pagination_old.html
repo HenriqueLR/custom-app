@@ -1,0 +1,22 @@
+	<div id="pages">
+							<nav><!--nav-->
+								<ul class="pagination pagination-centered" style='margin: 5px 0 7px;'><!--ul pagination pagination-centered -->
+									<li>
+										<a class='{% if page_obj.has_previous %}btn{% else %} btn disabled{% endif %}' href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" title=""><<</a>
+									</li>
+
+									<li>
+										<a class='{% if page_obj.has_previous %}btn{% else %} btn disabled {% endif %}' href="?page={% if page_obj.has_previous %}{{ page_obj.previous_page_number }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" title=""><</a>
+									</li>
+
+									<li>
+										<a class='{% if page_obj.has_next %}btn{% else %} btn disabled{% endif %}' href="?page={% if page_obj.has_next %}{{ page_obj.next_page_number }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" title="">></a>
+									</li>
+
+									<li>
+										<a class='{% if page_obj.has_next %}btn{% else %}btn disabled{% endif %}' href="?page={{paginator.num_pages}}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" title="">>></a>
+									</li>
+								</ul><!--ul pagination pagination-centered -->
+							</nav><!--nav-->
+							<small>{{ page_obj.number }} de {{paginator.num_pages}}</small>
+					</div>
