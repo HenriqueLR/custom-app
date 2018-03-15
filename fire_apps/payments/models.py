@@ -6,7 +6,7 @@ from django.db import models
 
 class DefaultFieldsModel(models.Model):
     updated_at = models.DateTimeField(verbose_name=u'Atualizado em', auto_now=True, db_column='updated_at')
-    created_at = models.DateTimeField(verbose_name=u'Criado em', auto_now_add=True, db_column='created_at')
+    created_at = models.DateTimeField(verbose_name=u'Criado em', auto_now_add=True, db_column='created_at', editable=True)
     description = models.TextField(db_column='description', blank=True, null=True, verbose_name=u'Descricao')
 
     class Meta:
@@ -84,7 +84,7 @@ class TaxaMachineCard(DefaultFieldsModel):
 
 
 
-class SalesCreditDebit(DefaultFieldsModel):
+class SalesCreditDebit(models.Model):
     id_sales_credit_debit = models.AutoField(primary_key=True, verbose_name=u'Cod Venda Credito Debito',
                                                 db_column='id_sales_credit_debit')
     status = models.ForeignKey(StatusCreditDebit, verbose_name='Status Venda', default=1,
@@ -101,6 +101,9 @@ class SalesCreditDebit(DefaultFieldsModel):
                                         max_digits=10, decimal_places=2, default=0)
     valor_perdido_total = models.DecimalField(verbose_name='Valor Perdido Total', db_column='valor_perdido_total',
                                                 max_digits=10, decimal_places=2, default=0)
+    updated_at = models.DateTimeField(verbose_name=u'Atualizado em', auto_now=True, db_column='updated_at')
+    created_at = models.DateTimeField(verbose_name=u'Criado em', db_column='created_at')
+    description = models.TextField(db_column='description', blank=True, null=True, verbose_name=u'Descricao')
 
     def __unicode__(self):
         return u'%s - %s - %s - %s' % (self.id_sales_credit_debit, self.status, self.tipo, self.total_parc)

@@ -6,6 +6,7 @@
 {% block content %}
 
     <div class="row">
+        {{ form_sale.errors }}
             <div class="col-xs-12 col-sm-12">
                 <div class="widget-box transparent">
                     <form action="." method="POST">
@@ -94,6 +95,18 @@
                                     </div>
                                     <span class="error text-danger">{{ form_sale.valor_total.errors|join:"<br \>" }}</span>
                                 </div>
+
+                                <div class="space-6"></div>
+                                <div>
+                                    <label for="id_created_at">Data</label>
+                                    <div class='input-group {% if form_sale.created_at.errors %}has-error{% endif %}'>
+                                        <div class='input-group-addon'>
+                                            <i class='ace-icon fa fa-credit-card'></i>
+                                        </div>
+                                        {{ form_sale.created_at|addcss:"form-control" }}
+                                    </div>
+                                    <span class="error text-danger">{{ form_sale.created_at.errors|join:"<br \>" }}</span>
+                                </div>
                             </div>
 
                         </div>
@@ -116,6 +129,33 @@
             }else{
                 $('#id_total_parcelas').show();
             }
+        });
+    });
+
+
+    $(function() {
+        var dateNow = new Date();
+        $('input[id="id_created_at"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            timePicker: true,
+            startDate: dateNow,
+            endDate: "99/99/9999",
+            locale: {
+                format: 'DD/MM/YYYY hh:mm:ss',
+                daysOfWeek: [
+                    "Dom",
+                    "Seg",
+                    "Ter",
+                    "Qua",
+                    "Qui",
+                    "Sex",
+                    "Sab"
+                ],
+            },
+        },
+        function(start, end, label) {
+            var years = moment().diff(start, 'years');
         });
     });
 </script>
